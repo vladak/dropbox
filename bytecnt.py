@@ -6,11 +6,8 @@ class Bytecnt:
     the result.
     """
 
-    def __init__(self, num):
-        self.num = num
-
-    def bytecnt_to_str(self, suffix='B'):
-        num = self.num
+    @staticmethod
+    def bytecnt_to_str(num, suffix='B'):
         for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
             if abs(num) < 1024.0:
                 return "%3.1f%s%s" % (num, unit, suffix)

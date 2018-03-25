@@ -31,8 +31,7 @@ if __name__ == "__main__":
     # XXX with stopwatch.stopwatch('spaceUsage'):
     su = dbx.users_get_space_usage()
     ia = su.allocation.get_individual()
-    bcu = Bytecnt(su.used)
-    bca = Bytecnt(ia.allocated)
     # XXX report user
     print("Used {} out of {}".
-          format(bcu.bytecnt_to_str(), bca.bytecnt_to_str()))
+          format(Bytecnt.bytecnt_to_str(su.used),
+	  Bytecnt.bytecnt_to_str(ia.allocated)))
