@@ -8,9 +8,8 @@ import sys
 import pprint
 from bytecnt import Bytecnt
 
-# XXX catch exception ? move to main() ?
-TOKEN = os.getenv("VARY_TOKEN")
 
+TOKEN = os.getenv("VARY_TOKEN")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Get space info from Dropbox')
