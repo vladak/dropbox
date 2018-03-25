@@ -2,7 +2,7 @@
 
 import dropbox
 import argparse
-import stopwatch
+from stopwatch import Stopwatch
 import os
 import sys
 import pprint
@@ -25,8 +25,9 @@ if __name__ == "__main__":
 
     dbx = dropbox.Dropbox(args.token)
 
-    # XXX with stopwatch.stopwatch('spaceUsage'):
-    su = dbx.users_get_space_usage()
+    with Stopwatch.stopwatch('spaceUsage'):
+        su = dbx.users_get_space_usage()
+
     # XXX should check is_individual()
     ia = su.allocation.get_individual()
     acct = dbx.users_get_current_account()

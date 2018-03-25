@@ -1,8 +1,9 @@
 import time
 import contextlib
 
-class stopwatch():
+class Stopwatch():
 
+    @staticmethod
     @contextlib.contextmanager
     def stopwatch(message):
         """Context manager to print how long a block of code took."""
@@ -11,4 +12,5 @@ class stopwatch():
             yield
         finally:
             t1 = time.time()
-            print('Total elapsed time for %s: %.3f' % (message, t1 - t0))
+            print('Total elapsed time for %s: %.3f seconds' %
+	          (message, t1 - t0))
