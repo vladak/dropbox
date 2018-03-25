@@ -26,12 +26,11 @@ if __name__ == "__main__":
 
     dbx = dropbox.Dropbox(args.token)
 
-    # print(dbx.users_get_current_account())
-
     # XXX with stopwatch.stopwatch('spaceUsage'):
     su = dbx.users_get_space_usage()
+    # XXX should check is_individual()
     ia = su.allocation.get_individual()
-    # XXX report user
-    print("Used {} out of {}".
-          format(Bytecnt.bytecnt_to_str(su.used),
-	  Bytecnt.bytecnt_to_str(ia.allocated)))
+    acct = dbx.users_get_current_account()
+    print("User {} used {} out of {}".
+          format(acct.name.display_name, Bytecnt.bytecnt_to_str(su.used),
+                 Bytecnt.bytecnt_to_str(ia.allocated)))
