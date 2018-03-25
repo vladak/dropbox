@@ -31,6 +31,7 @@ if __name__ == "__main__":
     # XXX should check is_individual()
     ia = su.allocation.get_individual()
     acct = dbx.users_get_current_account()
-    print("User {} used {} out of {}".
+    pct = su.used / ia.allocated
+    print("User {} used {} out of {} (at {}% capacity)".
           format(acct.name.display_name, Bytecnt.bytecnt_to_str(su.used),
-                 Bytecnt.bytecnt_to_str(ia.allocated)))
+                 Bytecnt.bytecnt_to_str(ia.allocated), int(pct)))
