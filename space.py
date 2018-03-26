@@ -9,7 +9,8 @@ import pprint
 from bytecnt import Bytecnt
 
 
-TOKEN = os.getenv("VARY_TOKEN")
+TOKEN_ENV_VAR = "DROPBOX_TOKEN"
+TOKEN = os.getenv(TOKEN_ENV_VAR)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Get space info from Dropbox')
@@ -20,7 +21,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if not args.token:
-        print("--token is mandatory")
+        print("--token or {} envronment variable is mandatory".
+	      format(TOKEN_ENV_VAR))
         sys.exit(2)
 
     dbx = dropbox.Dropbox(args.token)
