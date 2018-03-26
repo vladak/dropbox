@@ -8,6 +8,7 @@ import sys
 import pprint
 from bytecnt import Bytecnt
 import logging
+from util import Util
 
 
 TOKEN_ENV_VAR = "DROPBOX_TOKEN"
@@ -23,12 +24,7 @@ if __name__ == "__main__":
                         help='Enable debug prints')
     args = parser.parse_args()
 
-    if args.debug:
-        logging.basicConfig(level=logging.DEBUG)
-    else:
-        logging.basicConfig(format="%(message)s")
-
-    logger = logging.getLogger(os.path.basename(sys.argv[0]))
+    logger = Util.setup_logging(os.path.basename(sys.argv[0]), args.debug)
 
     if not args.token:
         print("--token or {} envronment variable is mandatory".
