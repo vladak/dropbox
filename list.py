@@ -10,6 +10,7 @@ from bytecnt import Bytecnt
 import dbox
 from stopwatch import Stopwatch
 from pprint import pprint
+import logging
 
 
 TOKEN_ENV_VAR = "DROPBOX_TOKEN"
@@ -21,9 +22,18 @@ if __name__ == "__main__":
     parser.add_argument('--token', default=TOKEN,
                         help='Access token '
                         '(see https://www.dropbox.com/developers/apps)')
+    parser.add_argument('-D', '--debug', action='store_true',
+                        help='Enable debug prints')
     parser.add_argument('folder', metavar='folder', type=str, nargs='?',
                         help='remote folder', default='')
     args = parser.parse_args()
+
+    if args.debug:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(format="%(message)s")
+
+    logger = logging.getLogger(os.path.basename(sys.argv[0]))
 
     if not args.token:
         print("--token or {} envronment variable is mandatory".
@@ -32,7 +42,7 @@ if __name__ == "__main__":
 
     dbx = dropbox.Dropbox(args.token)
 
-    res = dbox.list_folder(dbx, args.folder, '')
+    res = dbox.list_folder(dbx, logger, args.folder, '')
     pprint(res)
     print("###")
     for key in res.keys():
