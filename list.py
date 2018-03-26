@@ -43,7 +43,6 @@ if __name__ == "__main__":
     dbx = dropbox.Dropbox(args.token)
 
     res = dbox.list_folder(dbx, logger, args.folder, '')
-    pprint(res)
-    print("###")
+    logger.debug(res)
     for key in res.keys():
          print(key)
