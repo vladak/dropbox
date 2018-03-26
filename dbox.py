@@ -16,7 +16,7 @@ def normalize_path(path):
         path = path.replace('//', '/')
     return path
 
-def list_folder(dbx, folder, subfolder):
+def list_folder(dbx, logger, folder, subfolder):
     """List a folder.
 
     Return a dict mapping unicode filenames to
@@ -29,7 +29,8 @@ def list_folder(dbx, folder, subfolder):
         with Stopwatch.stopwatch('list_folder'):
             res = dbx.files_list_folder(path)
     except dropbox.exceptions.ApiError as err:
-        print('Folder listing failed for', path, '-- assumed empty:', err)
+        logger.error('Folder listing failed for',
+                     path, '-- assumed empty:', err)
         return {}
     else:
         rv = {}
@@ -37,7 +38,7 @@ def list_folder(dbx, folder, subfolder):
             rv[entry.name] = entry
         return rv
 
-def download(dbx, folder, subfolder, name):
+def download(dbx, logger, folder, subfolder, name):
     """Download a file.
 
     Return the bytes of the file, or None if it doesn't exist.
@@ -48,13 +49,14 @@ def download(dbx, folder, subfolder, name):
         try:
             md, res = dbx.files_download(path)
         except dropbox.exceptions.HttpError as err:
-            print('*** HTTP error', err)
+            logger.error('*** HTTP error', err)
             return None
     data = res.content
-    print(len(data), 'bytes; md:', md)
+    logger.debug(len(data), 'bytes; md:', md)
+
     return data
 
-def upload(dbx, fullname, folder, subfolder, name, overwrite=False):
+def upload(dbx, logger, fullname, folder, subfolder, name, overwrite=False):
     """Upload a file.
 
     Return the request response, or None in case of error.
@@ -74,7 +76,8 @@ def upload(dbx, fullname, folder, subfolder, name, overwrite=False):
                 client_modified=datetime.datetime(*time.gmtime(mtime)[:6]),
                 mute=True)
         except dropbox.exceptions.ApiError as err:
-            print('*** API error', err)
+            logger.error('*** API error', err)
             return None
-    print('uploaded as', res.name.encode('utf8'))
+    logger.debug('uploaded as', res.name.encode('utf8'))
+
     return res

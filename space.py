@@ -7,6 +7,7 @@ import os
 import sys
 import pprint
 from bytecnt import Bytecnt
+import logging
 
 
 TOKEN_ENV_VAR = "DROPBOX_TOKEN"
@@ -18,7 +19,16 @@ if __name__ == "__main__":
     parser.add_argument('--token', default=TOKEN,
                         help='Access token '
                         '(see https://www.dropbox.com/developers/apps)')
+    parser.add_argument('-D', '--debug', action='store_true',
+                        help='Enable debug prints')
     args = parser.parse_args()
+
+    if args.debug:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(format="%(message)s")
+
+    logger = logging.getLogger(os.path.basename(sys.argv[0]))
 
     if not args.token:
         print("--token or {} envronment variable is mandatory".
