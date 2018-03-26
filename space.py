@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     if not args.token:
         print("--token or {} envronment variable is mandatory".
-	      format(TOKEN_ENV_VAR))
+              format(TOKEN_ENV_VAR))
         sys.exit(2)
 
     dbx = dropbox.Dropbox(args.token)

@@ -1,6 +1,7 @@
 import time
 import contextlib
 
+
 class Stopwatch():
 
     @staticmethod
@@ -13,4 +14,4 @@ class Stopwatch():
         finally:
             t1 = time.time()
             print('Total elapsed time for %s: %.3f seconds' %
-	          (message, t1 - t0))
+                  (message, t1 - t0))
