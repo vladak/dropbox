@@ -16,6 +16,7 @@ def normalize_path(path):
         path = path.replace('//', '/')
     return path
 
+
 def list_folder(dbx, logger, folder, subfolder):
     """List a folder.
 
@@ -38,6 +39,7 @@ def list_folder(dbx, logger, folder, subfolder):
             rv[entry.name] = entry
         return rv
 
+
 def download(dbx, logger, folder, subfolder, name):
     """Download a file.
 
@@ -55,6 +57,7 @@ def download(dbx, logger, folder, subfolder, name):
     logger.debug(len(data), 'bytes; md:', md)
 
     return data
+
 
 def upload(dbx, logger, fullname, folder, subfolder, name, overwrite=False):
     """Upload a file.
