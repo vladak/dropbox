@@ -6,7 +6,6 @@ from stopwatch import Stopwatch
 import os
 import sys
 import pprint
-from bytecnt import Bytecnt
 import dbox
 from stopwatch import Stopwatch
 from pprint import pprint
@@ -25,6 +24,8 @@ if __name__ == "__main__":
                         '(see https://www.dropbox.com/developers/apps)')
     parser.add_argument('-D', '--debug', action='store_true',
                         help='Enable debug prints')
+    parser.add_argument('-n', '--numeric', action='store_true', default=False,
+                        help='Report file size in raw byte counts')
     parser.add_argument('folder', metavar='folder', type=str, nargs='?',
                         help='remote folder', default='')
     args = parser.parse_args()
@@ -41,11 +42,16 @@ if __name__ == "__main__":
     res = dbox.list_folder(dbx, logger, args.folder, '')
     logger.debug(res)
     for key in res.keys():
-         if isinstance(res[key], dropbox.files.FolderMetadata):
-             entry_type = 'd'
-         elif isinstance(res[key], dropbox.files.FileMetadata):
-             entry_type = '-'
-         else:
-             logger.error("Unknown type of {}".format(key))
+        metadata = res[key]
+        size = ''
+        if isinstance(metadata, dropbox.files.FolderMetadata):
+            entry_type = 'd'
+        elif isinstance(metadata, dropbox.files.FileMetadata):
+            entry_type = '-'
+            size = size if args.numeric else Util.bytecnt_to_str(metadata.size)
+        else:
+            logger.error("Unknown type of {}".format(key))
+            entry_type = 'N/A'
 
-         print("{} {}".format(entry_type, key))
+        print("{} {} {}".
+              format(entry_type, size, key))
