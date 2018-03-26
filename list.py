@@ -41,4 +41,11 @@ if __name__ == "__main__":
     res = dbox.list_folder(dbx, logger, args.folder, '')
     logger.debug(res)
     for key in res.keys():
-         print(key)
+         if isinstance(res[key], dropbox.files.FolderMetadata):
+             entry_type = 'd'
+         elif isinstance(res[key], dropbox.files.FileMetadata):
+             entry_type = '-'
+         else:
+             logger.error("Unknown type of {}".format(key))
+
+         print("{} {}".format(entry_type, key))
