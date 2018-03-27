@@ -6,7 +6,6 @@ from stopwatch import Stopwatch
 import os
 import sys
 import pprint
-from bytecnt import Bytecnt
 import logging
 from util import Util
 
@@ -41,5 +40,5 @@ if __name__ == "__main__":
     acct = dbx.users_get_current_account()
     pct = su.used / ia.allocated
     print("User {} used {} out of {} (at {}% capacity)".
-          format(acct.name.display_name, Bytecnt.bytecnt_to_str(su.used),
-                 Bytecnt.bytecnt_to_str(ia.allocated), int(pct)))
+          format(acct.name.display_name, Util.bytecnt_to_str(su.used),
+                 Util.bytecnt_to_str(ia.allocated), int(pct)))
