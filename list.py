@@ -75,7 +75,10 @@ if __name__ == "__main__":
         if isinstance(metadata, dropbox.files.FolderMetadata):
             dirs[key] = size
         elif isinstance(metadata, dropbox.files.FileMetadata):
-            size = size if args.numeric else Util.bytecnt_to_str(metadata.size)
+            if args.numeric:
+                size = metadata.size
+            else:
+                size = Util.bytecnt_to_str(metadata.size)
             files[key] = size
         else:
             logger.error("Unknown type of {}".format(key))
