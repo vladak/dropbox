@@ -84,3 +84,20 @@ def upload(dbx, logger, src, dst, overwrite=False):
     logger.debug("uploaded as {}".format(res.name.encode('utf8')))
 
     return res
+
+
+def delete(dbx, logger, path):
+    """Delete a file/folder.
+
+    Return True if successfully delete, otherwise False.
+    """
+    path = '/%s' % path.replace(os.path.sep, '/')
+    path = normalize_path(path)
+    with Stopwatch.stopwatch('delete'):
+        try:
+            dbx.files_delete(path)
+        except dropbox.exceptions.HttpError as err:
+            logger.error('*** HTTP error', err)
+            return False
+
+    return True
