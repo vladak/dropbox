@@ -18,7 +18,7 @@ TOKEN = os.getenv(TOKEN_ENV_VAR)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Upload file to Dropbox')
+    parser = argparse.ArgumentParser(description='Download file from Dropbox')
 
     parser.add_argument('--token', default=TOKEN,
                         help='Access token '
@@ -26,10 +26,10 @@ if __name__ == "__main__":
     parser.add_argument('-D', '--debug', action='store_true',
                         help='Enable debug prints')
     parser.add_argument('file', metavar='file', type=str, nargs=1,
-                        help='file to upload')
+                        help='file to download')
     parser.add_argument('destination', metavar='dst', type=str, nargs='?',
                         help='destination path. If not set, the file will '
-                        'be uploaded to top level directory', default='')
+                        'be downloaded to current directory', default=None)
     args = parser.parse_args()
 
     logger = Util.setup_logging(os.path.basename(sys.argv[0]), args.debug)
@@ -43,7 +43,11 @@ if __name__ == "__main__":
 
     src = args.file[0]
     logger.debug(src)
-    res = dbox.upload(dbx, logger, src, args.destination)
-    logger.debug(res)
-
-    # XXX verify that the content hash matches
+    data = dbox.download(dbx, logger, src)
+    if args.destination:
+        dst = args.destination
+    else:
+        dst = os.path.basename(src)
+    with open(dst, 'wb') as f:
+        f.write(data)
+    # XXX verify content hash

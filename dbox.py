@@ -40,12 +40,12 @@ def list_folder(dbx, logger, folder, subfolder):
         return rv
 
 
-def download(dbx, logger, folder, subfolder, name):
+def download(dbx, logger, path):
     """Download a file.
 
     Return the bytes of the file, or None if it doesn't exist.
     """
-    path = '/%s/%s/%s' % (folder, subfolder.replace(os.path.sep, '/'), name)
+    path = '/%s' % path.replace(os.path.sep, '/')
     path = normalize_path(path)
     with Stopwatch.stopwatch('download'):
         try:
@@ -54,7 +54,7 @@ def download(dbx, logger, folder, subfolder, name):
             logger.error('*** HTTP error', err)
             return None
     data = res.content
-    logger.debug(len(data), 'bytes; md:', md)
+    logger.debug("{} bytes; md: {}".format(len(data), md))
 
     return data
 
