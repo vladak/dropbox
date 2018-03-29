@@ -59,12 +59,12 @@ def download(dbx, logger, folder, subfolder, name):
     return data
 
 
-def upload(dbx, logger, fullname, folder, subfolder, name, overwrite=False):
+def upload(dbx, logger, fullname, folder, name, overwrite=False):
     """Upload a file.
 
     Return the request response, or None in case of error.
     """
-    path = '/%s/%s/%s' % (folder, subfolder.replace(os.path.sep, '/'), name)
+    path = '/%s/%s' % (folder.replace(os.path.sep, '/'), name)
     path = normalize_path(path)
     mode = (dropbox.files.WriteMode.overwrite
             if overwrite
@@ -81,6 +81,6 @@ def upload(dbx, logger, fullname, folder, subfolder, name, overwrite=False):
         except dropbox.exceptions.ApiError as err:
             logger.error('*** API error', err)
             return None
-    logger.debug('uploaded as', res.name.encode('utf8'))
+    logger.debug("uploaded as {}".format(res.name.encode('utf8')))
 
     return res
