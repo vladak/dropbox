@@ -43,6 +43,5 @@ if __name__ == "__main__":
 
     src = args.file[0]
     logger.debug(src)
-    res = dbox.upload(dbx, logger, src, args.destination,
-                      os.path.basename(src))
+    res = dbox.upload(dbx, logger, src, args.destination)
     logger.debug(res)

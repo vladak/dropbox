@@ -59,18 +59,18 @@ def download(dbx, logger, folder, subfolder, name):
     return data
 
 
-def upload(dbx, logger, fullname, folder, name, overwrite=False):
+def upload(dbx, logger, src, dst, overwrite=False):
     """Upload a file.
 
     Return the request response, or None in case of error.
     """
-    path = '/%s/%s' % (folder.replace(os.path.sep, '/'), name)
+    path = '/%s' % dst.replace(os.path.sep, '/')
     path = normalize_path(path)
     mode = (dropbox.files.WriteMode.overwrite
             if overwrite
             else dropbox.files.WriteMode.add)
-    mtime = os.path.getmtime(fullname)
-    with open(fullname, 'rb') as f:
+    mtime = os.path.getmtime(src)
+    with open(src, 'rb') as f:
         data = f.read()
     with Stopwatch.stopwatch('upload %d bytes' % len(data)):
         try:
