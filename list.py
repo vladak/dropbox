@@ -35,10 +35,10 @@ def list_entries(logger, dirs, files):
     logger.debug("maxlen = {}".format(maxlen))
 
     for item in sorted(dirs.keys()):
-        print_entry('-', item, maxlen, dirs[item])
+        print_entry('d', item, maxlen, dirs[item])
 
     for item in sorted(files.keys()):
-        print_entry('d', item, maxlen, files[item])
+        print_entry('-', item, maxlen, files[item])
 
 
 if __name__ == "__main__":
